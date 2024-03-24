@@ -21,7 +21,7 @@ venv/scripts/activate
 ```
 
 5. `pip install opencv-python matplotlib numpy`
-6. run objectDetection.py
+6. `py sample.py`
 
 ```
 py objectDetection.py
