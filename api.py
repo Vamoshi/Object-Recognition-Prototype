@@ -20,12 +20,27 @@ def index():
     return "Welcome to the Image Processing API!"
 
 
+@app.route(f"{baseRoute}/test", methods=["POST"])
+def test():
+    base64Image = request.form.to_dict()["image"]
+
+    return jsonify({"message": "KJHSDLKFHSDLKJFHD", "list": [base64Image]})
+    # base64Image = request.form.to_dict()["image"]
+    # decodedBytes = base64.b64decode(base64Image)
+    # buffer_array = np.frombuffer(decodedBytes, dtype=np.uint8)
+    # image = cv2.imdecode(buffer_array, cv2.IMREAD_COLOR)
+
+    # cv2.imshow("Decoded Image", image)
+    # cv2.waitKey(0)
+    # cv2.destroyAllWindows()
+
+
 @app.route(f"{baseRoute}/upload_image", methods=["POST"])
 def uploadImage():
     # Receive the binary image data from the request
     binaryImageData = request.get_data()
 
-    print(binaryImageData)
+    print(base64.b64encode(cv2.imencode(".png", binaryImageData)[1]).decode())
 
     # Return a response indicating successful upload
     return jsonify({"message": "Image received"})
@@ -35,6 +50,7 @@ def uploadImage():
 def detectObjects():
     # try:
     base64Image = request.form.to_dict()["image"]
+
     decodedBytes = base64.b64decode(base64Image)
     # Convert bytes to numpy array
     buffer_array = np.frombuffer(decodedBytes, dtype=np.uint8)
@@ -48,9 +64,9 @@ def detectObjects():
     contours = cv2.findContours(image, cv2.RETR_CCOMP, cv2.CHAIN_APPROX_NONE)[0]
     contours = sorted(contours, key=cv2.contourArea, reverse=True)
 
-    contours = ContourMerge.mergeContoursGenDist(contours, 400)
+    contours = ContourMerge.mergeContoursGenDist(contours, 600)
 
-    ## Draw bounding boxes for merged contours
+    # # Draw bounding boxes for merged contours
     # for rect in contours:
     #     x, y, x2, y2 = rect
     #     cv2.rectangle(imageCopy, (x, y), (x2, y2), (36, 255, 12), 2)
@@ -70,6 +86,8 @@ def detectObjects():
     # cv2.waitKey(0)
     # cv2.destroyAllWindows()
 
+    # thumbnails = [cv2.resize(img, (thumbnail_width, thumbnail_height)) for img in detectedObjects]
+
     # cv2.imencode econdes the images into a numpy array
     # base64.b64encode encodes it into base64
     # decode, decodes the base64 into a string
@@ -78,14 +96,13 @@ def detectObjects():
         for img in detectedObjects
     ]
 
-    print(len(returnImages))
+    print(returnImages[0])
 
-    return jsonify(
-        {
-            "message": "Image received",
-            "detectedObjects": returnImages,
-        }
-    )
+    return jsonify({"message": "Image received", "detectedObjects": returnImages})
+
+    # returnImages = ["hello"]
+
+    # return jsonify({"message": "Image received", "returnImages": returnImages})
 
 
 # except Exception as e:
