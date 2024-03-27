@@ -1,13 +1,7 @@
 import cv2
 import numpy as np
 from matplotlib import pyplot as plt
-
-
-class MorphOperation:
-    def __init__(self, operation, kernelSize, iterations=1):
-        self.operation = operation
-        self.kernel = np.ones((kernelSize, kernelSize), np.uint8)
-        self.iterations = iterations
+from MorphOperation import MorphOperation
 
 
 def saveImages(mergedContours):
@@ -226,5 +220,6 @@ axs[4].imshow(cv2.cvtColor(imageCopy, cv2.COLOR_BGR2RGB))
 
 saveImages(mergedContours)
 print(len(mergedContours))
+print(type(image))
 
 plt.show()

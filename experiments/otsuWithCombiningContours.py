@@ -16,11 +16,9 @@ gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
 axs[0].imshow(cv2.cvtColor(image, cv2.COLOR_BGR2RGB))
 
-# Apply gaussian and Otsu (idk what otsu's is, found it on StackOverflow)
 gaussianKernelSize = 1
 blurred = cv2.GaussianBlur(gray, (gaussianKernelSize, gaussianKernelSize), 0)
 
-# TBH I don't know what this does, the explanation is too mathematics and changing the first threshold doesn't seem to do anything??
 binImage = cv2.threshold(blurred, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)[1]
 
 axs[1].imshow(cv2.cvtColor(blurred, cv2.COLOR_BGR2RGB))
