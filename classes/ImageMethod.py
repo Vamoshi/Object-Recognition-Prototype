@@ -1,3 +1,7 @@
+import base64
+import gzip
+import io
+import json
 import cv2
 from matplotlib import pyplot as plt
 import numpy as np
@@ -41,6 +45,31 @@ class ImageMethod(metaclass=NonInstantiableMeta):
 
             cv2.imwrite(f"image{i}.png", image)
         print("Image Saved")
+
+    def makeThumbnail(image, targetSize):
+        h, w = image.shape[:2]
+        aspectRatio = w / h
+
+        newH = newW = targetSize
+
+        if aspectRatio > 1:
+            newW = targetSize
+            newH = int(newW / aspectRatio)
+        else:
+            newH = targetSize
+            newW = int(newH * aspectRatio)
+
+        return cv2.resize(image, (newW, newH))
+
+    def encodeForReturn(imageList):
+        returnImages = []
+
+        for i, img in enumerate(imageList):
+            cv2EncodedImage = cv2.imencode(".png", img)[1]
+            base64Encode = base64.b64encode(cv2EncodedImage)
+            decoded = base64Encode.decode()
+            returnImages.append(decoded)
+        return returnImages
 
 
 # def getContours(
