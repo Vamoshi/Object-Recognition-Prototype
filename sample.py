@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
 from matplotlib import pyplot as plt
-from MorphOperation import MorphOperation
+from classes.MorphOperation import MorphOperation
 
 
 def saveImages(mergedContours):
@@ -10,7 +10,7 @@ def saveImages(mergedContours):
             continue
         x, y, x2, y2 = rect
         roi = image[y:y2, x:x2]
-        cv2.imwrite(f"ingredient{i}.png", roi)
+        cv2.imwrite(f"./objects/ingredient{i}.png", roi)
 
 
 def grayAndBlur(image, gaussianKernelSize):
@@ -165,7 +165,7 @@ fig, axs = plt.subplots(row, col, figsize=(16, 9))
 
 # fig.tight_layout()
 
-image = cv2.imread("input2.jpg")
+image = cv2.imread("inputImages/input2.jpg")
 
 morphOps = [
     # MorphOperation(cv2.MORPH_ERODE, 3),

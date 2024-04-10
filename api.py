@@ -20,6 +20,8 @@ firebase_admin.initialize_app(cred)
 db = firestore.client()
 
 app = Flask(__name__)
+CORS(app, resources={r"/api/*": {"origins": "exp://10.50.78.104:8081"}})
+
 
 baseRoute = "/api"
 
@@ -65,7 +67,9 @@ def testFirebase():
 
 @app.route(f"{baseRoute}/detect_objects", methods=["POST"])
 def detectObjects():
-    # try:
+    if not request.form or len(request.form) < 1:
+        return jsonify({"message": "No Form"})
+
     if not request.form["image"]:
         return jsonify({"message": "No image"})
 
@@ -87,9 +91,9 @@ def detectObjects():
     contours = ContourMerge.mergeContoursGenDist(contours, 300)
 
     # # Draw bounding boxes for merged contours
-    # for rect in contours:
-    #     x, y, x2, y2 = rect
-    #     cv2.rectangle(imageCopy, (x, y), (x2, y2), (36, 255, 12), 2)
+    for rect in contours:
+        x, y, x2, y2 = rect
+        cv2.rectangle(imageCopy, (x, y), (x2, y2), (36, 255, 12), 2)
 
     # print(len(contours))
     detectedObjects = []
@@ -102,9 +106,9 @@ def detectObjects():
         detectedObjects.append(roi)
         print("doing Stuff")
 
-    # cv2.imshow("Decoded Image", imageCopy)
-    # cv2.waitKey(0)
-    # cv2.destroyAllWindows()
+    cv2.imshow("Decoded Image", imageCopy)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
 
     # thumbnails = [cv2.resize(img, (50, 50)) for img in detectedObjects]
 
@@ -143,8 +147,8 @@ def detectObjects():
     parentDoc = parentCollection.document()
     childCollection = parentDoc.collection("images")
 
-    for image in returnImages:
-        childCollection.add({image: image})
+    for im in returnImages:
+        childCollection.add({"image": im})
         # print(docRef.id)
 
     # data = {"detectedObjects": returnImages}
@@ -153,7 +157,7 @@ def detectObjects():
     return json.dumps(
         {
             "message": "Image received",
-            "detectedObjects": parentDoc.id,
+            "documentID": parentDoc.id,
         }
     )
 
