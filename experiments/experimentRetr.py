@@ -1,3 +1,6 @@
+# Experimented between different cv2.RETR_ parameters in
+# cnts = cv2.findContours(thresh, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)[0]
+
 import cv2
 import numpy as np
 from matplotlib import pyplot as plt

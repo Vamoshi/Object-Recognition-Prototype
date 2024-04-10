@@ -1,5 +1,5 @@
 # NOTES TO SELF: playing around with variables gaussianKernelSize, kernelSize, and threshold changes a lot.
-# THIS IS FOR EXPERIMENTAL PURPOSES AND IS THUS VERY CLUTTERED CHECK objectDetection.py
+# THIS IS FOR EXPERIMENTAL PURPOSES AND IS THUS VERY CLUTTERED CHECK sample.py
 
 import cv2
 import numpy as np

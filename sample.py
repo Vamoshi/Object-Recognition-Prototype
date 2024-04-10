@@ -134,6 +134,7 @@ def mergeContoursCenterDist(contours, mergingThresh):
     return mergedContours
 
 
+# api is basically based on this
 def getContours(
     image,
     morphOps=[],
@@ -167,6 +168,7 @@ fig, axs = plt.subplots(row, col, figsize=(16, 9))
 
 image = cv2.imread("inputImages/input2.jpg")
 
+# Process image based on morphops in list
 morphOps = [
     # MorphOperation(cv2.MORPH_ERODE, 3),
     # MorphOperation(cv2.MORPH_DILATE, 7),
@@ -191,6 +193,7 @@ contours, blurred, morph = getContours(
 # TODO: change merge contour algorithm return format to contours not plain list of points
 mergedContours = contours
 
+# We can use multiple types of merge and combine them
 # mergedContours = mergeContoursTopLeftDist(mergedContours, 40)
 # mergedContours = mergeContours(mergedContours, 300)
 mergedContours = mergeContoursCenterDist(mergedContours, 200)

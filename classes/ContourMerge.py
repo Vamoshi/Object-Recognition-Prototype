@@ -5,6 +5,8 @@ from classes.MetaClasses import NonInstantiableMeta
 
 
 class ContourMerge(metaclass=NonInstantiableMeta):
+    # Merge contours based on general distance
+    # e.g. if 2 contours' distance of x,y,w, and h are less than threshold
     def mergeContoursGenDist(contours, mergingThresh):
         mergedContours = []
         # # Merge Contours
@@ -39,6 +41,7 @@ class ContourMerge(metaclass=NonInstantiableMeta):
 
         return mergedContours
 
+    # Merge objects if the distance between the top left corners are less than threshold
     def mergeContoursTopLeftDist(contours, mergingThresh):
         mergedContours = []
         for contour in contours:
@@ -66,6 +69,7 @@ class ContourMerge(metaclass=NonInstantiableMeta):
                 mergedContours.append(current_rect)
         return mergedContours
 
+    # Merge objects if the distance between the centers are less than threshold
     def mergeContoursCenterDist(contours, mergingThresh):
         mergedContours = []
 
