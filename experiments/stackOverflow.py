@@ -28,3 +28,4 @@ for c in cnts:
 
 cv2.imshow("image", image)
 cv2.waitKey()
+# https://stackoverflow.com/questions/21104664/extract-all-bounding-boxes-using-opencv-python
